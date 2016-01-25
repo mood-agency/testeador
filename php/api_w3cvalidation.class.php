@@ -54,7 +54,8 @@ class W3cValidateApi{
 			curl_setopt($ch, CURLOPT_FAILONERROR, true);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-			
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Fix - SSL certificate problem: unable to get local issuer certificate
+
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER ,true);
 			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 			

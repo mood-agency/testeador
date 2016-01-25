@@ -185,7 +185,7 @@ $log = !empty($log) ? $log : true;
     echo "<a href='" . $url . "'>" . $url . "</a>";
     //------------------------------------------------ Https Test
 
-    echo "<h3>https Test</h3>";
+    echo "<h3>Https Support</h3>";
 
     /* Tests
         Fail : https://toastytech.com/evil/. Not have a SSL certificate
