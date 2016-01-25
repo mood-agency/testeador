@@ -1,3 +1,22 @@
+New 0.616:
+More informative messages in some fields
+PHP Notice corrected
+Remove debug message
+
+New 0.615:
+Input Validation at "Type your host..." input
+Replaced <? tag by <?php in api_w3validation.php and index.php. The tag was not interpreted correctly under some server configurations.
+Validate lenght of title, description, keywords
+added useragent in the curl call api_w3validation.php
+
+
+
+New 0.614: 
+W3C Validatino library was broken due to W3C API update. Noat soap12 para accepted. Using JSON instead. Fixed
+Some cosmetic fix. Blockquote in some info
+Added link to the host name
+
+
 New 0.613: 
 Added HotLinking Validation
 Aditional information in some errors
