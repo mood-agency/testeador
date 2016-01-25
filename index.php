@@ -98,7 +98,7 @@ $log = !empty($log) ? $log : true;
 <div class="container">
 
     <h1>
-        Testeador v0.616
+        Testeador v0.617
     </h1>
     <!--<small><a href='http://mood.com.ve'>By mood agency</a></small>-->
 
@@ -160,6 +160,8 @@ $log = !empty($log) ? $log : true;
 
     $url = $_GET['host'];
     $url = "http://" . $_GET['host'];
+    $httpsURL = "https://" . $_GET['host'];
+
 
     str_replace("www.", "", $url); // strip www. from the url so we can check that the returned URL www
 
@@ -178,9 +180,33 @@ $log = !empty($log) ? $log : true;
         exit;
     }
 
-
+    //------------------------------------------------ Https Test
     echo "<h3>Host</h3>";
     echo "<a href='" . $url . "'>" . $url . "</a>";
+    //------------------------------------------------ Https Test
+
+    echo "<h3>https Test</h3>";
+
+    /* Tests
+        Fail : https://toastytech.com/evil/. Not have a SSL certificate
+        Success: https://smashingmagazine.com. Have a SSL certificate
+        Warning: https://mood.com.ve. Redirect to the non secure ite
+
+    */
+    $dataReturnedHTTPS = getDataFromURL($httpsURL);
+    echo "<a href='" .  $httpsURL . "'>" . $httpsURL . "</a>";
+    $parsedUrlHTTPS = parse_url($dataReturnedHTTPS['effectiveURL']);
+    if ($dataReturnedHTTPS['httpcode'] == 200) {
+        if ( strcasecmp($parsedUrlHTTPS['scheme'],'http')==0) {
+            warning("It seems that it was redirected to the http(not secure) site.");
+        } else {
+            pass();
+        }
+    } else {
+        fatal("The site not support https");
+    }
+
+
     //------------------------------------------------ Check Favicon
     echo "<h3>Favicon</h3>";
 
@@ -623,10 +649,12 @@ $log = !empty($log) ? $log : true;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Fix - SSL certificate problem: unable to get local issuer certificate
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
+        //$dataReturned;
 
-        $dataReturned;
 
         $dataReturned['html'] = curl_exec($ch);
+        $dataReturned['httpcode'] = curl_getinfo ($ch, CURLINFO_HTTP_CODE );
         $dataReturned['effectiveURL'] = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
 
@@ -641,7 +669,7 @@ $log = !empty($log) ? $log : true;
 
     function logM($message)
     {
-        if (true) {
+        if (false) {
             echo "<div class='log'>Log Message:" . $message . "</div>";
         }
     }
