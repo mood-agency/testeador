@@ -3,6 +3,8 @@ More informative messages in some fields
 PHP Notice corrected
 Remove debug message
 
+Fix. https connection issue.
+
 New 0.615:
 Input Validation at "Type your host..." input
 Replaced <? tag by <?php in api_w3validation.php and index.php. The tag was not interpreted correctly under some server configurations.
