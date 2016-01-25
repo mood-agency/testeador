@@ -235,19 +235,25 @@ $log =  !empty($log) ? $log : true;
     for ($i = 0; $i < $attrs->length; $i++) {
         $attr = $attrs->item($i);
 
+        // Reference. http://www.w3schools.com/html/html_charset.asp
+
+        // For HTML 4
         $val = $attr->getAttribute('http-equiv');
 
         if (strcasecmp($val, "content-type") == 0) {
             echo "<p>http-equiv='" . $val . "'</p>";
             echo "<p>content='" . $attr->getAttribute('content') . "'</p>";
-            $encodingFound = 'HTML';
+            $encodingFound = 'HTML4';
         }
 
-        if (strcasecmp($val, 'utf-8') == 0) {
+        // For HTML 5
+        $val = $attr->getAttribute('charset');
+
+        if (strcasecmp($val, "UTF-8") == 0) {
+            echo "<p>charset='" . $val . "'</p>";
             $encodingFound = 'HTML5';
         }
     }
-
     if ($encodingFound)
         pass($encodingFound . ' encoding found!');
     else
@@ -333,7 +339,7 @@ $log =  !empty($log) ? $log : true;
     if (!$keywordsFound)
         fatal("meta keywords tag not found!");
     //------------------------------------------------ Facebook Tags
-
+    echo "<h4>Facebook Tags</h4>";
     for ($i = 0; $i < $attrs->length; $i++) {
         $attr = $attrs->item($i);
 
