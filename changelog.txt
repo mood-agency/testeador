@@ -2,8 +2,8 @@ New 0.616:
 More informative messages in some fields
 PHP Notice corrected
 Remove debug message
-
 Fix. https connection issue.
+Facebook og tags validation added
 
 New 0.615:
 Input Validation at "Type your host..." input

@@ -32,7 +32,7 @@ $validateFirewall = !empty($firewallParam) ? $firewallParam : "";
 $host = isset($_GET['host']) ? $_GET['host'] : '';
 $words = !empty($words) ? $words : "";
 $firewall = !empty($firewall) ? $firewall : "";
-$log =  !empty($log) ? $log : true;
+$log = !empty($log) ? $log : true;
 
 ?>
 <!doctype html>
@@ -51,7 +51,8 @@ $log =  !empty($log) ? $log : true;
             width: 100%;
             height: 600px;
         }
-        .log{
+
+        .log {
             font-weight: bold;
         }
     </style>
@@ -97,7 +98,7 @@ $log =  !empty($log) ? $log : true;
 <div class="container">
 
     <h1>
-        Testeador v0.615
+        Testeador v0.616
     </h1>
     <!--<small><a href='http://mood.com.ve'>By mood agency</a></small>-->
 
@@ -339,16 +340,26 @@ $log =  !empty($log) ? $log : true;
     if (!$keywordsFound)
         fatal("meta keywords tag not found!");
     //------------------------------------------------ Facebook Tags
-    echo "<h4>Facebook Tags</h4>";
+    echo "<h2>Facebook Tags</h2>";
+    echo "<h4>og:url</h4>";
     for ($i = 0; $i < $attrs->length; $i++) {
         $attr = $attrs->item($i);
 
         $val = $attr->getAttribute('property');
+        // Reference https://developers.facebook.com/docs/sharing/webmasters#markup
 
-        if (strcasecmp($val, "og:url") == 0) {
-            echo "<p>http-equiv='" . $val . "'</p>";
-            echo "<p>content='" . $attr->getAttribute('content') . "'</p>";
-            //$encodingFound = 'HTML';
+        $tags = array('og:url','og:type','og:title','og:description','og:image');
+
+        $arrlength = count($tags);
+
+        for ($x = 0; $x < $arrlength; $x++) {
+            //echo tags[$x];
+
+            if (strcasecmp($val, $tags[$x]) == 0) {
+                echo "<p>property='" . $val . "'</p>";
+                echo "<p>content='" . $attr->getAttribute('content') . "'</p>";
+                pass($tags[$x] . ' found');
+            }
         }
     }
 
@@ -590,7 +601,8 @@ $log =  !empty($log) ? $log : true;
         //if (! $result) { die("error deleting test: " . $test->error()); }
     }
 
-    function findString($text, $cadena) {
+    function findString($text, $cadena)
+    {
 
         return strpos($text, $cadena);
 
@@ -627,11 +639,13 @@ $log =  !empty($log) ? $log : true;
         return $dataReturned;
     }
 
-    function logM($message){
-        if (true){
-            echo "<div class='log'>Log Message:".$message."</div>";
+    function logM($message)
+    {
+        if (true) {
+            echo "<div class='log'>Log Message:" . $message . "</div>";
         }
     }
+
     // http://stackoverflow.com/questions/1459739/php-serverhttp-host-vs-serverserver-name-am-i-understanding-the-ma
     function getHost()
     {
