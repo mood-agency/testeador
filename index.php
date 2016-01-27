@@ -7,10 +7,8 @@
 	Mood Agency. Todos Los Derechos Reservados
 	
 	Todo.
-	* SSL compatible
-	* Test if web is SSL ready
+	* checar robots.txt
 	* Is using cloudflare? or another CDN
-	* facebook og tags?
 	* Detectar Doctype
 	* Icono de carga al momento de hacer el yslow o pagespeed
 	* javascript dentro de la pagina
@@ -180,7 +178,7 @@ $log = !empty($log) ? $log : true;
         exit;
     }
 
-    //------------------------------------------------ Https Test
+    //------------------------------------------------ Host
     echo "<h3>Host</h3>";
     echo "<a href='" . $url . "'>" . $url . "</a>";
     //------------------------------------------------ Https Test
@@ -195,6 +193,7 @@ $log = !empty($log) ? $log : true;
     */
     $dataReturnedHTTPS = getDataFromURL($httpsURL);
     echo "<a href='" .  $httpsURL . "'>" . $httpsURL . "</a>";
+
     $parsedUrlHTTPS = parse_url($dataReturnedHTTPS['effectiveURL']);
     if ($dataReturnedHTTPS['httpcode'] == 200) {
         if ( strcasecmp($parsedUrlHTTPS['scheme'],'http')==0) {
@@ -205,7 +204,41 @@ $log = !empty($log) ? $log : true;
     } else {
         fatal("The site not support https");
     }
+    //------------------------------------------------ Robot
+    echo "<h3>robots.txt</h3>";
 
+
+
+    function remoteFileExists($url){
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_NOBODY, true);
+        $result = curl_exec($curl);
+        $ret = false;
+        if ($result !== false) {
+            $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($statusCode == 200) {
+                $ret = true;
+            }
+        }
+        curl_close($curl);
+        return $ret;
+    }
+
+
+    $robotsURL = "$url/robots.txt";
+    $dataReturnedRobot = getDataFromURL($robotsURL);
+    $robotInfo = parse_url($dataReturnedRobot['effectiveURL']);
+
+
+    if ($dataReturnedRobot['httpcode'] == 404) {
+        fatal("Robots.txt not found");
+
+
+    } elseif ($dataReturnedRobot['httpcode'] == 200){
+        echo "<a href='$robotsURL'>$robotsURL</a>";
+        echo "<p>".$dataReturnedRobot['html']."</p>";
+        pass("robots.txt found!");
+    }
 
     //------------------------------------------------ Check Favicon
     echo "<h3>Favicon</h3>";
@@ -502,7 +535,9 @@ $log = !empty($log) ? $log : true;
 
     //------------------------------------------------ Check 404
     echo "<h3>404 Page</h3>";
-    echo "<p>We are trying to reach the 404 page! Verify that the site respond accordingly!";
+    echo "<p>We are trying to reach the 404 page! Verify that the site respond accordingly!</p>";
+    echo "<p>Note: Some page Refused to display in a frame because it set 'X-Frame-Options' to 'SAMEORIGIN'.</p>";
+    echo "<a href='$errorURL'>$errorURL</a>";
 
     echo "<div><iframe class='iframe' src='" . $errorURL . "'></iframe></div>";
     // Do you have to check visually if the 404 page is what you expect
@@ -645,13 +680,10 @@ $log = !empty($log) ? $log : true;
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Fix - SSL certificate problem: unable to get local issuer certificate
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
-        //$dataReturned;
-
 
         $dataReturned['html'] = curl_exec($ch);
         $dataReturned['httpcode'] = curl_getinfo ($ch, CURLINFO_HTTP_CODE );
@@ -659,8 +691,6 @@ $log = !empty($log) ? $log : true;
 
 
         if (!$dataReturned['html']) {
-            //echo "<br />cURL error number:" .curl_errno($ch);
-            //echo "<br />cURL error:" . curl_error($ch);
             $dataReturned['error'] = curl_error($ch);
         }
 

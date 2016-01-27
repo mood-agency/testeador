@@ -1,5 +1,6 @@
 New 0.617:
-Https suport
+Https support
+Fixed SSL error in W3C class
 
 New 0.616:
 More informative messages in some fields
