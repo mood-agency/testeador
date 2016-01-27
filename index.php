@@ -7,7 +7,7 @@
 	Mood Agency. Todos Los Derechos Reservados
 	
 	Todo.
-	* checar robots.txt
+	* Cambiar iframe por div en prueba 404
 	* Is using cloudflare? or another CDN
 	* Detectar Doctype
 	* Icono de carga al momento de hacer el yslow o pagespeed
@@ -53,6 +53,11 @@ $log = !empty($log) ? $log : true;
         .log {
             font-weight: bold;
         }
+
+        .containerError {
+            width: 100px;
+            height: 100px;
+        }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -96,16 +101,16 @@ $log = !empty($log) ? $log : true;
 <div class="container">
 
     <h1>
-        Testeador v0.617
+        Testeador v0.618
     </h1>
     <!--<small><a href='http://mood.com.ve'>By mood agency</a></small>-->
 
     <form id='go_form' action="index.php" method='get'>
 
         <div class="input">
-            <span style="padding:0 5px">http://</span><input name="host" class="span2" id="host"
-                                                             value="<?php echo $host ?>" type="text"
-                                                             placeholder="Type your host..."/>
+            <span style="padding:0 5px">http://</span>
+            <input name="host" class="span2" id="host" value="<?php echo $host ?>" type="text"
+                   placeholder="Type your host..."/>
             <div id='host-message-validation'></div>
         </div>
         <p>
@@ -192,11 +197,11 @@ $log = !empty($log) ? $log : true;
 
     */
     $dataReturnedHTTPS = getDataFromURL($httpsURL);
-    echo "<a href='" .  $httpsURL . "'>" . $httpsURL . "</a>";
+    echo "<a href='" . $httpsURL . "'>" . $httpsURL . "</a>";
 
     $parsedUrlHTTPS = parse_url($dataReturnedHTTPS['effectiveURL']);
     if ($dataReturnedHTTPS['httpcode'] == 200) {
-        if ( strcasecmp($parsedUrlHTTPS['scheme'],'http')==0) {
+        if (strcasecmp($parsedUrlHTTPS['scheme'], 'http') == 0) {
             warning("It seems that it was redirected to the http(not secure) site.");
         } else {
             pass();
@@ -208,8 +213,8 @@ $log = !empty($log) ? $log : true;
     echo "<h3>robots.txt</h3>";
 
 
-
-    function remoteFileExists($url){
+    function remoteFileExists($url)
+    {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_NOBODY, true);
         $result = curl_exec($curl);
@@ -227,16 +232,14 @@ $log = !empty($log) ? $log : true;
 
     $robotsURL = "$url/robots.txt";
     $dataReturnedRobot = getDataFromURL($robotsURL);
-    $robotInfo = parse_url($dataReturnedRobot['effectiveURL']);
-
 
     if ($dataReturnedRobot['httpcode'] == 404) {
         fatal("Robots.txt not found");
 
 
-    } elseif ($dataReturnedRobot['httpcode'] == 200){
+    } elseif ($dataReturnedRobot['httpcode'] == 200) {
         echo "<a href='$robotsURL'>$robotsURL</a>";
-        echo "<p>".$dataReturnedRobot['html']."</p>";
+        echo "<p>" . $dataReturnedRobot['html'] . "</p>";
         pass("robots.txt found!");
     }
 
@@ -407,7 +410,7 @@ $log = !empty($log) ? $log : true;
         $val = $attr->getAttribute('property');
         // Reference https://developers.facebook.com/docs/sharing/webmasters#markup
 
-        $tags = array('og:url','og:type','og:title','og:description','og:image');
+        $tags = array('og:url', 'og:type', 'og:title', 'og:description', 'og:image');
 
         $arrlength = count($tags);
 
@@ -539,7 +542,14 @@ $log = !empty($log) ? $log : true;
     echo "<p>Note: Some page Refused to display in a frame because it set 'X-Frame-Options' to 'SAMEORIGIN'.</p>";
     echo "<a href='$errorURL'>$errorURL</a>";
 
-    echo "<div><iframe class='iframe' src='" . $errorURL . "'></iframe></div>";
+
+    $dataReturned404Page = getDataFromURL($errorURL);
+    var_dump($dataReturned404Page);
+    $html = $dataReturned404Page['html'];
+    echo $dataReturned404Page['httpcode'];
+    echo "<div class='containerError'>$html</div>";
+
+    //echo "<div><iframe class='iframe' src='" . $errorURL . "'></iframe></div>";
     // Do you have to check visually if the 404 page is what you expect
 
     //------------------------------------------------ HotLinking
@@ -683,10 +693,10 @@ $log = !empty($log) ? $log : true;
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Fix - SSL certificate problem: unable to get local issuer certificate
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
         $dataReturned['html'] = curl_exec($ch);
-        $dataReturned['httpcode'] = curl_getinfo ($ch, CURLINFO_HTTP_CODE );
+        $dataReturned['httpcode'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $dataReturned['effectiveURL'] = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
 

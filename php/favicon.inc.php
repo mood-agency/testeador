@@ -43,7 +43,7 @@ class favicon
         if ($this->ico_url == '')
         {
             $this->ico_url = $this->site_url . 'favicon.ico';
-        
+            echo  $this->ico_url;
             # get html of page
             $h = @fopen($this->site_url, 'r');
             if ($h)
@@ -64,9 +64,9 @@ class favicon
                     {
                         $this->ico_type = (!(strpos($link_tag, 'png')===false)) ? 'png' : 'ico';
                         $ico_href = trim($out[3]);
-                        if (strpos($ico_href, 'http://')===false) 
+                        if ((strpos($ico_href, 'http://')===false) && (strpos($ico_href, 'https://')===false))
                         {
-                            $ico_href = rtrim($this->site_url, '/') . '/' . ltrim($ico_href, '/');
+                                $ico_href = rtrim($this->site_url, '/') . '/' . ltrim($ico_href, '/');
                         }
                         $this->ico_url = $ico_href;
                     }

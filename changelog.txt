@@ -1,3 +1,7 @@
+New 0.168
+Fixed bug when a favicon is comes from https.
+Added robots.txt verification
+
 New 0.617:
 Https support
 Fixed SSL error in W3C class

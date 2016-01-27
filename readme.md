@@ -1,5 +1,5 @@
 #Testeador
-##Automatic tests to ensure that your site is ready to launch.
+##Automatic tests to ensure that your site is ready to launch in PHP!.
 
 ###This are the tests:
 
