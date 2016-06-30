@@ -1,3 +1,9 @@
+New 0.620
+Now https and 404 page are checked via iframes
+
+New 0.619
+Added Curl detection
+
 New 0.168
 Fixed bug when a favicon is comes from https.
 Added robots.txt verification

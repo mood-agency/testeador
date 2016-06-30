@@ -43,7 +43,6 @@ class favicon
         if ($this->ico_url == '')
         {
             $this->ico_url = $this->site_url . 'favicon.ico';
-            echo  $this->ico_url;
             # get html of page
             $h = @fopen($this->site_url, 'r');
             if ($h)

@@ -7,6 +7,7 @@
 	Mood Agency. Todos Los Derechos Reservados
 	
 	Todo.
+	* Add favicon test for apple devices
 	* Cambiar iframe por div en prueba 404
 	* Is using cloudflare? or another CDN
 	* Detectar Doctype
@@ -16,7 +17,6 @@
 	* Verificar si el tamano de las imagenes es igual al de la ventana donde se despliegan
 	
 	de joomla
-	* Verificar si el administrador esta protegido por plugin OSE
 	probar validacion de http://html5.validator.nu
 	* Verificar el tag de validacion de Google Plus
 	<a href="https://plus.google.com/100162575262429404334" rel="publisher"> <img src="/images/mood_googleplus_logo.png" alt=""> </a>
@@ -44,22 +44,8 @@ $log = !empty($log) ? $log : true;
 
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
-    <style>
-        .iframe {
-            width: 100%;
-            height: 600px;
-        }
-
-        .log {
-            font-weight: bold;
-        }
-
-        .containerError {
-            width: 100px;
-            height: 100px;
-        }
-    </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	
 
     <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="ico/favicon.ico"/>
@@ -68,40 +54,15 @@ $log = !empty($log) ? $log : true;
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
     <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
     <script src="js/jquery-2.1.1.js"></script>
-    <script>
-
-        $(document).ready(function () {
-            /*$('#host').keypress(function(e){
-             if (!validateURL ('http://' + $('#host').val())){
-             console.log('Host url not valid!');
-             }
-             });*/
-            $('#go_form').submit(function (e) {
-
-                //validateURL ('http://' + $('#host').val());
-                //if (!$('#host').val()){
-                if (!validateURL('http://' + $('#host').val())) {
-                    alert('Host url not valid!');
-
-                    e.preventDefault();
-                    return false;
-                }
-            })
-        });
-
-        function validateURL(textval) {
-            var urlregex = new RegExp(
-                "^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
-            return urlregex.test(textval);
-        }
-    </script>
+    <script src="js/script.js" type="text/javascript"></script>
+	
 </head>
 
 <body>
 <div class="container">
 
     <h1>
-        Testeador v0.618
+        Testeador v0.620
     </h1>
     <!--<small><a href='http://mood.com.ve'>By mood agency</a></small>-->
 
@@ -138,6 +99,7 @@ $log = !empty($log) ? $log : true;
 
 
     <?php
+	_isCurl();
 
     if (!isset($_GET['host']))
         return;
@@ -209,26 +171,13 @@ $log = !empty($log) ? $log : true;
     } else {
         fatal("The site not support https");
     }
+
+	echo "<iframe src='$httpsURL' width='100%' height='500px' ></iframe>";
+    //------------------------------------------------DNS
+
+
     //------------------------------------------------ Robot
     echo "<h3>robots.txt</h3>";
-
-
-    function remoteFileExists($url)
-    {
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_NOBODY, true);
-        $result = curl_exec($curl);
-        $ret = false;
-        if ($result !== false) {
-            $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            if ($statusCode == 200) {
-                $ret = true;
-            }
-        }
-        curl_close($curl);
-        return $ret;
-    }
-
 
     $robotsURL = "$url/robots.txt";
     $dataReturnedRobot = getDataFromURL($robotsURL);
@@ -248,17 +197,25 @@ $log = !empty($log) ? $log : true;
 
     $favicon = new favicon($url, 0);
     $fv = $favicon->get_ico_url();
-    //echo $favicon->is_ico_exists();
 
-    echo "<img src='" . $fv . "'/>";
-    //echo "<img src='". $fv ."' width='32px'/>";
-    //echo "<img src='". $fv ."' width='64px'/>";
+    if ($favicon->is_ico_exists()) {
+        echo "<p>Check that the favicon looks fine</p>";
+
+        echo "<a href='$fv'>$fv</a>";
+        //Reference http://stackoverflow.com/questions/4014823/does-a-favicon-have-to-be-32x32-or-16x16
+        echo "<img class='favicon' src='" . $fv . "' width='16px'/>";
+        echo "<img class='favicon' src='" . $fv . "' width='32px'/>";
+        echo "<img class='favicon' src='" . $fv . "' width='48px'/>";
+        pass();
+    } else {
+        fatal("Favicon not found");
+    }
 
     //------------------------------------------------ Canonicalization
     echo "<h3>Canonicalization</h3>";
 
     $parsedURL = parse_url($dataReturned['effectiveURL']);
-
+var_dump($parsedURL);
     echo "Check if the user is redirect to the www. domain";
     //.$dataReturned['effectiveURL'];
 
@@ -271,13 +228,11 @@ $log = !empty($log) ? $log : true;
     //------------------------------------------------ Check Title and metadata
 
     echo "<h3>Title and Metadata</h3>";
-    echo "Looking for the 'Joomla' word or empty tags...";
+
 
     // Parse the html into a DOMDocument
     $dom = new DOMDocument();
     @$dom->loadHTML($html);
-
-    //print_r ($dom->doctype);
 
     $xpath = new DOMXPath($dom);
     $nodelist = $xpath->query("//title");
@@ -542,12 +497,13 @@ $log = !empty($log) ? $log : true;
     echo "<p>Note: Some page Refused to display in a frame because it set 'X-Frame-Options' to 'SAMEORIGIN'.</p>";
     echo "<a href='$errorURL'>$errorURL</a>";
 
-
+/*
     $dataReturned404Page = getDataFromURL($errorURL);
-    var_dump($dataReturned404Page);
     $html = $dataReturned404Page['html'];
     echo $dataReturned404Page['httpcode'];
-    echo "<div class='containerError'>$html</div>";
+    echo "<div class='containerError'>$html</div>";*/
+	
+	echo "<iframe src='$errorURL' width='100%' height='500px' ></iframe>";
 
     //echo "<div><iframe class='iframe' src='" . $errorURL . "'></iframe></div>";
     // Do you have to check visually if the 404 page is what you expect
@@ -587,6 +543,18 @@ $log = !empty($log) ? $log : true;
     ?>
 
     <?php
+	/***************/
+	/** FUNCTIONS **/
+	/***************/
+	
+	/** Curl is used to get data from remote servers. Just check that it is installed **/
+	function _isCurl(){
+		if (!function_exists('curl_version')) {
+			echo "Seems that curl is missing";
+			exit();
+		}			
+	}
+	
     function fatal($text = "This is a fatal error.")
     {
 
