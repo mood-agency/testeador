@@ -18,6 +18,7 @@
 
  -->
 <?php
+$version = "0.621";
 
 $scoreParam = isset($_GET['score']) ? $_GET['score'] : '';
 $validateParam = isset($_GET['validate']) ? $_GET['validate'] : '';
@@ -27,6 +28,7 @@ $words = !empty($words) ? $words : "";
 $firewall = !empty($firewall) ? $firewall : "";
 $log = !empty($log) ? $log : true;
 
+$script_name = basename(__FILE__)
 ?>
 <!doctype html>
 <html lang="en">
@@ -40,7 +42,7 @@ $log = !empty($log) ? $log : true;
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-	
+
 
     <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="ico/favicon.ico"/>
@@ -50,18 +52,18 @@ $log = !empty($log) ? $log : true;
     <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
     <script src="js/jquery-2.1.1.js"></script>
     <script src="js/script.js" type="text/javascript"></script>
-	
+
 </head>
 
 <body>
 <div class="container">
 
     <h1>
-        Testeador v0.620
+        Testeador <?php echo $version ?>
     </h1>
     <!--<small><a href='http://mood.com.ve'>By mood agency</a></small>-->
 
-    <form id='go_form' action="index.php" method='get'>
+    <form id='go_form' action="<?php echo $script_name ?>" method='get'>
 
         <div class="input">
             <span style="padding:0 5px">http://</span>
@@ -94,7 +96,7 @@ $log = !empty($log) ? $log : true;
 
 
     <?php
-	_isCurl();
+    _isCurl();
 
     if (!isset($_GET['host']))
         return;
@@ -167,7 +169,7 @@ $log = !empty($log) ? $log : true;
         fatal("The site not support https");
     }
 
-	echo "<iframe src='$httpsURL' width='100%' height='500px' ></iframe>";
+    echo "<iframe src='$httpsURL' width='100%' height='500px' ></iframe>";
     //------------------------------------------------DNS
 
 
@@ -210,7 +212,7 @@ $log = !empty($log) ? $log : true;
     echo "<h3>Canonicalization</h3>";
 
     $parsedURL = parse_url($dataReturned['effectiveURL']);
-var_dump($parsedURL);
+    var_dump($parsedURL);
     echo "Check if the user is redirect to the www. domain";
     //.$dataReturned['effectiveURL'];
 
@@ -492,13 +494,13 @@ var_dump($parsedURL);
     echo "<p>Note: Some page Refused to display in a frame because it set 'X-Frame-Options' to 'SAMEORIGIN'.</p>";
     echo "<a href='$errorURL'>$errorURL</a>";
 
-/*
-    $dataReturned404Page = getDataFromURL($errorURL);
-    $html = $dataReturned404Page['html'];
-    echo $dataReturned404Page['httpcode'];
-    echo "<div class='containerError'>$html</div>";*/
-	
-	echo "<iframe src='$errorURL' width='100%' height='500px' ></iframe>";
+    /*
+        $dataReturned404Page = getDataFromURL($errorURL);
+        $html = $dataReturned404Page['html'];
+        echo $dataReturned404Page['httpcode'];
+        echo "<div class='containerError'>$html</div>";*/
+
+    echo "<iframe src='$errorURL' width='100%' height='500px' ></iframe>";
 
     //echo "<div><iframe class='iframe' src='" . $errorURL . "'></iframe></div>";
     // Do you have to check visually if the 404 page is what you expect
@@ -538,18 +540,19 @@ var_dump($parsedURL);
     ?>
 
     <?php
-	/***************/
-	/** FUNCTIONS **/
-	/***************/
-	
-	/** Curl is used to get data from remote servers. Just check that it is installed **/
-	function _isCurl(){
-		if (!function_exists('curl_version')) {
-			echo "Seems that curl is missing";
-			exit();
-		}			
-	}
-	
+    /***************/
+    /** FUNCTIONS **/
+    /***************/
+
+    /** Curl is used to get data from remote servers. Just check that it is installed **/
+    function _isCurl()
+    {
+        if (!function_exists('curl_version')) {
+            echo "Seems that curl is missing";
+            exit();
+        }
+    }
+
     function fatal($text = "This is a fatal error.")
     {
 
