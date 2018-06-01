@@ -128,7 +128,7 @@ $script_name = basename(__FILE__)
     str_replace("www.", "", $url); // strip www. from the url so we can check that the returned URL www
 
     $errorURL = $url . "/this-is-url-that-do-not-exit-to-test-the-404-page.html";
-    $firewallTestURL = $url . "/index.php?%20union";
+    $firewallTestURL = $url . "/". $script_name."?%20union";
 
     // Verify the domain can be resolved
 
