@@ -1,20 +1,20 @@
 <!-- 
 	Testeador
-	Desarrollado por Argenis Leon. 
+	By Argenis Leon.
 	argenisleon@gmail.com. 
 	Twitter: @argenisleon.
 	
-	Mood Agency. Todos Los Derechos Reservados
-	
+	Mood Agency.
+
+	FIX: Move this to github issues
 	Todo.
 	* Add favicon test for apple devices
-	* Cambiar iframe por div en prueba 404
+	* Change iframe por div en prueba 404
 	* Is using cloudflare? or another CDN
-	* Detectar Doctype
-	* Icono de carga al momento de hacer el yslow o pagespeed
+	* Detect Doctype
+	* Loading icon when calculating yslow o pagespeed
 	* javascript dentro de la pagina
-	* htaccess que este abilitada la compresion y los expiration date
-	* Verificar si el tamano de las imagenes es igual al de la ventana donde se despliegan
+	* Verify that the image size is the same that is displayed in the image tag
 
  -->
 <?php
