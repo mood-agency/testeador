@@ -15,12 +15,7 @@
 	* javascript dentro de la pagina
 	* htaccess que este abilitada la compresion y los expiration date
 	* Verificar si el tamano de las imagenes es igual al de la ventana donde se despliegan
-	
-	de joomla
-	probar validacion de http://html5.validator.nu
-	* Verificar el tag de validacion de Google Plus
-	<a href="https://plus.google.com/100162575262429404334" rel="publisher"> <img src="/images/mood_googleplus_logo.png" alt=""> </a>
-	
+
  -->
 <?php
 
