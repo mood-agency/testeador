@@ -98,7 +98,7 @@ $script_name = basename(__FILE__)
 
 
     <?php
-    
+
     _isCurl();
 
     if (!isset($_GET['host']))
