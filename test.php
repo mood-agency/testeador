@@ -484,15 +484,7 @@ $script_name = basename(__FILE__)
 
     if ($styleFound)
         warning('Put styles in a external file');
-    //------------------------------------------------ Old Browser detection
-    echo "<h3>Old Browser detection</h3>";
-    echo "<p>Looking for 'BrowserUpdateWarning.js' </p>";
-
-    if (findString($html, "BrowserUpdateWarning.js"))
-        pass();
-    else
-        fatal("BrowserUpdateWarning.js not found!");
-
+    
     //------------------------------------------------ Check 404
     echo "<h3>404 Page</h3>";
     echo "<p>We are trying to reach the 404 page! Verify that the site respond accordingly!</p>";
