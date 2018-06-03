@@ -1,5 +1,5 @@
 #Testeador
-##Automatic tests to ensure that your site is ready to launch in PHP!.
+##A PHP Script to do Automatic tests to ensure that your site is ready to launch!.
 
 ###This are the tests:
 
@@ -15,9 +15,6 @@
 * Get pagespeed & yslow Score. Bring your pageSpeed and ySlow score using the http://gtmetrix.com/. Thanks gtmetrix
 * Firewall Attack. Test your page against a simple attack www.yoursite.com/index.php?%20union. Your site must respond accordinly
 * Validate W3C. Validate that your code is W3C complaint http://validator.w3.org/. Thanks W3c
-
-###Joomla Specific
-* Old Browser detection. Verify that you can handle old browser using the BrowserUpdateWarning.js plugin
 
 ##Authors
 
