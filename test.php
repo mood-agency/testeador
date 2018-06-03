@@ -50,7 +50,10 @@ $script_name = basename(__FILE__)
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png"/>
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
     <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
-    <script src="js/jquery-2.1.1.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
     <script src="js/script.js" type="text/javascript"></script>
 
 </head>
@@ -63,7 +66,7 @@ $script_name = basename(__FILE__)
     </h1>
     <!--<small><a href='http://mood.com.ve'>By mood agency</a></small>-->
 
-    <form id='go_form' action="<?php echo $script_name ?>" method='get'>
+    <form id='go_form' action="test.php" method='get'>
 
         <div class="input">
             <span style="padding:0 5px">http://</span>
@@ -96,6 +99,8 @@ $script_name = basename(__FILE__)
 
 
     <?php
+
+    echo "hola";
     _isCurl();
 
     if (!isset($_GET['host']))
@@ -152,7 +157,7 @@ $script_name = basename(__FILE__)
     /* Tests
         Fail : https://toastytech.com/evil/. Not have a SSL certificate
         Success: https://smashingmagazine.com. Have a SSL certificate
-        Warning: https://mood.com.ve. Redirect to the non secure ite
+        Warning: https://mood.com.ve. Redirect to the non secure site
 
     */
     $dataReturnedHTTPS = getDataFromURL($httpsURL);
@@ -500,7 +505,7 @@ $script_name = basename(__FILE__)
         echo $dataReturned404Page['httpcode'];
         echo "<div class='containerError'>$html</div>";*/
 
-    echo "<iframe src='$errorURL' width='100%' height='500px' ></iframe>";
+    echo "<iframe id='404' src='$errorURL' width='100%' height='500px' ></iframe>";
 
     //echo "<div><iframe class='iframe' src='" . $errorURL . "'></iframe></div>";
     // Do you have to check visually if the 404 page is what you expect
@@ -645,7 +650,8 @@ $script_name = basename(__FILE__)
 
     }
 
-    function getDataFromURL($url)
+    function getDataFromURL
+    ($url)
     {
         logM("getDtaFromURL");
         $userAgent = 'Googlebot/2.1 (http://www.googlebot.com/bot.html)';
