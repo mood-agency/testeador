@@ -9,7 +9,6 @@
 	FIX: Move this to github issues
 	Todo.
 	* Add favicon test for apple devices
-	* Change iframe por div en prueba 404
 	* Is using cloudflare? or another CDN
 	* Detect Doctype
 	* Loading icon when calculating yslow o pagespeed
@@ -99,8 +98,7 @@ $script_name = basename(__FILE__)
 
 
     <?php
-
-    echo "hola";
+    
     _isCurl();
 
     if (!isset($_GET['host']))
